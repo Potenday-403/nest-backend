@@ -5,23 +5,26 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('socials')
-export class Social {
-  @PrimaryGeneratedColumn()
+@Entity('users')
+export class User {
+  @PrimaryColumn()
   id: number;
 
-  @Column()
-  provider: string;
+  @Column({ nullable: true })
+  age: number;
 
-  @Column()
-  providerSideId: string;
+  @Column({ nullable: true })
+  gender: string;
 
-  @Column()
-  token: string;
+  @Column({ nullable: true })
+  occupation: string;
+
+  @Column({ unique: true })
+  socialId: string;
 
   @CreateDateColumn()
   createdAt: Date;

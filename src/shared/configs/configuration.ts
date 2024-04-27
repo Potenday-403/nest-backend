@@ -8,5 +8,11 @@ export default (): any => ({
   },
   jwt: {
     secret: process.env.JWT_SECRET,
+    accessExp: process.env.ACCESS_JWT_EXP,
+  },
+  kakao: {
+    clientId: process.env.KAKAO_CLIENT_ID,
+    redirectedUri: process.env.KAKAO_REDIRECTED_URI,
+    generateTokenUri: process.env.KAKAO_GENERATE_TOKEN_URI,
   },
 });

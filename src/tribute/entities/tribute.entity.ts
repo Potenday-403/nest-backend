@@ -1,10 +1,9 @@
-import { Social } from 'src/auth/entities/social.entity';
+import { User } from 'src/auth/entities/user.entity';
 import { Friend } from 'src/friend/entities/friend.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -32,8 +31,8 @@ export class Tribute {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => Social, (social) => social.tributes)
-  user: Social;
+  @ManyToOne(() => User, (user) => user.tributes)
+  user: User;
 
   @ManyToOne(() => Friend, (friend) => friend.tributes)
   friend: Friend;

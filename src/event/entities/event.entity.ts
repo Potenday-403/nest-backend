@@ -1,9 +1,8 @@
-import { Social } from 'src/auth/entities/social.entity';
+import { User } from 'src/auth/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -32,6 +31,6 @@ export class Event {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Social, (social) => social.events)
-  user: Social;
+  @ManyToOne(() => User, (user) => user.events)
+  user: User;
 }
