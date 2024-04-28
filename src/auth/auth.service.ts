@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { SignUpReqDto } from './dtos/req/sign-up-req.dto';
 import { UserRepository } from './repositories/user.repository';
 import { LoginReqDto } from './dtos/req/login-req.dto';
@@ -20,6 +20,12 @@ export class AuthService {
     signUpReqDto: SignUpReqDto;
   }) {
     const { id, signUpReqDto } = props;
+    const user = await this.userRepository.findOne({ where: { id } });
+
+    if (!user) {
+      throw new HttpException('Cannot find user.', HttpStatus.NOT_FOUND);
+    }
+
     await this.userRepository.updateUserPersonalInfo({ id, ...signUpReqDto });
   }
 

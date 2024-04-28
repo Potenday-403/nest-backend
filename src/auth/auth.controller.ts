@@ -16,14 +16,14 @@ import { GetUserId } from 'src/shared/decorators/getUserId';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('/signup')
+  @Post('signup')
   @HttpCode(HttpStatus.CREATED)
   @UseGuards(JwtAuthGuard)
   async signUp(@GetUserId() id: number, @Body() signUpReqDto: SignUpReqDto) {
     await this.authService.updateUserPersonalInfo({ id, signUpReqDto });
   }
 
-  @Post('/login')
+  @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() loginReqDto: LoginReqDto) {}
 }

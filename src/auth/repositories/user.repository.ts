@@ -14,7 +14,9 @@ export class UserRepository extends Repository<User> {
     gender: string;
     occupation: string;
   }) {
-    await this.save(props);
+    const { id, age, gender, occupation } = props;
+
+    await this.update({ id }, { age, gender, occupation });
   }
 
   async getUserBySocialId(socialId: string) {
