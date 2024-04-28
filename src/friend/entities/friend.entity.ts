@@ -1,5 +1,12 @@
+import { User } from 'src/auth/entities/user.entity';
 import { Tribute } from 'src/tribute/entities/tribute.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('friends')
 export class Friend {
@@ -20,4 +27,7 @@ export class Friend {
 
   @OneToMany(() => Tribute, (tribute) => tribute.friend)
   tributes: Tribute[];
+
+  @ManyToOne(() => User, (user) => user.friends)
+  user: User;
 }

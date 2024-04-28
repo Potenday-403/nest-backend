@@ -1,5 +1,5 @@
 import { Event } from 'src/event/entities/event.entity';
-import { Tribute } from 'src/tribute/entities/tribute.entity';
+import { Friend } from 'src/friend/entities/friend.entity';
 import {
   Column,
   CreateDateColumn,
@@ -35,6 +35,6 @@ export class User {
   @OneToMany(() => Event, (event) => event.user)
   events: Event[];
 
-  @OneToMany(() => Tribute, (tribute) => tribute.user)
-  tributes: Tribute[];
+  @OneToMany(() => Friend, (friend) => friend.user)
+  friends: Friend[];
 }

@@ -31,9 +31,6 @@ export class Tribute {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => User, (user) => user.tributes)
-  user: User;
-
   @ManyToOne(() => Friend, (friend) => friend.tributes)
   friend: Friend;
 }
