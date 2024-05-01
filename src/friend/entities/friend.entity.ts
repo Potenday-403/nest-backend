@@ -1,4 +1,5 @@
 import { User } from 'src/auth/entities/user.entity';
+import { Event } from 'src/event/entities/event.entity';
 import { Tribute } from 'src/tribute/entities/tribute.entity';
 import {
   Column,
@@ -25,9 +26,12 @@ export class Friend {
   @Column()
   relationship: string;
 
+  @ManyToOne(() => User, (user) => user.friends)
+  user: User;
+
   @OneToMany(() => Tribute, (tribute) => tribute.friend)
   tributes: Tribute[];
 
-  @ManyToOne(() => User, (user) => user.friends)
-  user: User;
+  @OneToMany(() => Event, (event) => event.friend)
+  events: Event[];
 }

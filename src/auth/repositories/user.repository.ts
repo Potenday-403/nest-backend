@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 
@@ -21,6 +21,16 @@ export class UserRepository extends Repository<User> {
 
   async getUserBySocialId(socialId: string) {
     return this.findOne({ where: { socialId } });
+  }
+
+  async getUserById(id: number) {
+    const user = await this.findOne({ where: { id } });
+
+    if (!user) {
+      throw new HttpException('Cannot find user.', HttpStatus.NOT_FOUND);
+    }
+
+    return user;
   }
 
   async createUser(socialId: string): Promise<User> {

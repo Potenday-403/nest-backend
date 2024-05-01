@@ -1,4 +1,5 @@
 import { User } from 'src/auth/entities/user.entity';
+import { Friend } from 'src/friend/entities/friend.entity';
 import {
   Column,
   CreateDateColumn,
@@ -33,4 +34,7 @@ export class Event {
 
   @ManyToOne(() => User, (user) => user.events)
   user: User;
+
+  @ManyToOne(() => Friend, (friend) => friend.events)
+  friend: Friend;
 }

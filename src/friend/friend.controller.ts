@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -23,5 +24,14 @@ export class FriendController {
     @Body() createFriendReqDto: CreateFriendReqDto,
   ) {
     return this.friendService.createFriend({ userId: id, createFriendReqDto });
+  }
+
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async getFriends(@GetUserId() id: number) {
+    const friends = await this.friendService.getSortedFriends(id);
+
+    return { friends };
   }
 }
