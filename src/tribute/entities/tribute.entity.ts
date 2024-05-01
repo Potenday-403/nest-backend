@@ -28,6 +28,9 @@ export class Tribute {
   @Column()
   isDeleted: boolean;
 
+  @Column()
+  transactionDate: Date;
+
   @CreateDateColumn()
   createdAt: Date;
 

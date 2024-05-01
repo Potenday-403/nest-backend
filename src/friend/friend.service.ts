@@ -3,9 +3,10 @@ import { FriendRepository } from './repositories/friend.repository';
 import { CreateFriendReqDto } from './dtos/req/create-friend-req.dto';
 import { UserRepository } from 'src/auth/repositories/user.repository';
 import { EventRepository } from 'src/event/repositories/event.repository';
-import { MoreThan } from 'typeorm';
+import { In, MoreThan } from 'typeorm';
 import { Friend } from './entities/friend.entity';
 import { Event } from 'src/event/entities/event.entity';
+import { TributeRepository } from 'src/tribute/repositories/tribute.repository';
 
 @Injectable()
 export class FriendService {
@@ -13,6 +14,7 @@ export class FriendService {
     private friendRepository: FriendRepository,
     private userRepository: UserRepository,
     private eventRepository: EventRepository,
+    private tributeRepository: TributeRepository,
   ) {}
 
   async createFriend(props: {
@@ -74,5 +76,37 @@ export class FriendService {
       gender: friend.gender,
       relationship: friend.relationship,
     }));
+  }
+
+  async getFriend(props: { userId: number; friendId: number }) {
+    const { userId, friendId } = props;
+
+    const user = await this.userRepository.getUserById(userId);
+
+    const friend = await this.friendRepository.findOne({
+      where: { user, id: friendId },
+    });
+
+    const tributes = await this.tributeRepository.find({
+      where: { friend },
+      order: { transactionDate: 'DESC' },
+    });
+
+    return {
+      name: friend.name,
+      age: friend.age,
+      gender: friend.gender,
+      relationship: friend.relationship,
+      tributes: tributes.map(
+        ({ id, transactionDate, type, name, price, isReceived }) => ({
+          id,
+          date: transactionDate.toISOString().split('T')[0],
+          type,
+          name,
+          price,
+          isReceived,
+        }),
+      ),
+    };
   }
 }

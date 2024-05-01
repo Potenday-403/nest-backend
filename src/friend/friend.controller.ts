@@ -4,6 +4,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -33,5 +34,12 @@ export class FriendController {
     const friends = await this.friendService.getSortedFriends(id);
 
     return { friends };
+  }
+
+  @Get(':friendId')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async getFriend(@GetUserId() id: number, @Param('friendId') friendId) {
+    return this.friendService.getFriend({ userId: id, friendId });
   }
 }
