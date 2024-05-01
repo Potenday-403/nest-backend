@@ -1,7 +1,10 @@
 import {
+  Body,
   Controller,
   HttpCode,
   HttpStatus,
+  Param,
+  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -9,6 +12,7 @@ import { EventService } from './event.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { GetUserId } from 'src/shared/decorators/getUserId';
 import { CreateEventReqDto } from './dtos/req/create-event-req.dto';
+import { ModifyEventReqDto } from './dtos/req/modify-event-req.dto';
 
 @Controller('events')
 export class EventController {
@@ -19,8 +23,17 @@ export class EventController {
   @UseGuards(JwtAuthGuard)
   async createEvent(
     @GetUserId() id: number,
-    createEventReqDto: CreateEventReqDto,
+    @Body() createEventReqDto: CreateEventReqDto,
   ) {
     await this.eventService.createEvent({ userId: id, createEventReqDto });
+  }
+
+  @Patch(':id')
+  @HttpCode(HttpStatus.OK)
+  async modifyEvent(
+    @Param('id') eventId: number,
+    @Body() modifyEventReqDto: ModifyEventReqDto,
+  ) {
+    await this.eventService.modifyEvent({ eventId, modifyEventReqDto });
   }
 }
