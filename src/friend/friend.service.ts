@@ -79,10 +79,8 @@ export class FriendService {
     }));
   }
 
-  async getFriend(friendId) {
-    const friend = await this.friendRepository.findOne({
-      where: { id: friendId },
-    });
+  async getFriend(friendId: number) {
+    const friend = await this.friendRepository.getFriendById(friendId);
 
     const tributes = await this.tributeRepository.find({
       where: { friend },
@@ -108,7 +106,9 @@ export class FriendService {
   }
 
   async deleteFriend(friendId: number) {
-    await this.friendRepository.delete({ id: friendId });
+    const friend = await this.friendRepository.getFriendById(friendId);
+
+    await this.friendRepository.remove(friend);
   }
 
   async modifyFriend(props: {
@@ -117,9 +117,7 @@ export class FriendService {
   }) {
     const { friendId, modifyFriendReqDto } = props;
 
-    const friend = await this.friendRepository.findOne({
-      where: { id: friendId },
-    });
+    const friend = await this.friendRepository.getFriendById(friendId);
 
     const modifiedFriend = await this.friendRepository.save({
       friend,

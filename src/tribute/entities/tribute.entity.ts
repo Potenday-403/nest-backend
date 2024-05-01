@@ -25,7 +25,7 @@ export class Tribute {
   @Column()
   isReceived: boolean;
 
-  @Column()
+  @Column({ default: false })
   isDeleted: boolean;
 
   @Column()

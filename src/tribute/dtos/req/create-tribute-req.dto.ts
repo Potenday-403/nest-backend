@@ -6,14 +6,18 @@ import {
   IsString,
 } from 'class-validator';
 
-export class ModifyTributeReqDto {
+export class CreateTributeReqDto {
   @IsNotEmpty()
-  @IsString()
-  type: string;
+  @IsNumber()
+  friendId: number;
 
   @IsNotEmpty()
   @IsString()
-  name: string;
+  eventType: string;
+
+  @IsNotEmpty()
+  @IsString()
+  tributeName: string;
 
   @IsNotEmpty()
   @IsNumber()

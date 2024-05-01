@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { Friend } from '../entities/friend.entity';
 import { User } from 'src/auth/entities/user.entity';
@@ -13,5 +13,15 @@ export class FriendRepository extends Repository<Friend> {
     const friends = await this.find({ where: { user } });
 
     return friends;
+  }
+
+  async getFriendById(friendId: number) {
+    const friend = await this.findOne({ where: { id: friendId } });
+
+    if (!friend) {
+      throw new HttpException('Cannot find friend.', HttpStatus.NOT_FOUND);
+    }
+
+    return friend;
   }
 }
