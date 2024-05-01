@@ -62,6 +62,6 @@ export class TributeService {
   async deleteTribute(tributeId: number) {
     const tribute = await this.tributeRepository.getTributeById(tributeId);
 
-    await this.tributeRepository.remove(tribute);
+    await this.tributeRepository.update({ id: tributeId }, { isDeleted: true });
   }
 }

@@ -55,9 +55,11 @@ export class EventService {
     });
   }
 
-  async deleteEvent(eventId: number) {
-    const event = await this.eventRepository.getEventByEventId(eventId);
-
-    await this.eventRepository.remove(event);
+  async deleteEvents(eventIds: number[]) {
+    await Promise.all(
+      eventIds.map(async (id) => {
+        await this.eventRepository.delete(id);
+      }),
+    );
   }
 }
