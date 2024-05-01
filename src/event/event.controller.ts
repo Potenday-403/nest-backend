@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   HttpCode,
   HttpStatus,
   Param,
@@ -30,10 +31,18 @@ export class EventController {
 
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
   async modifyEvent(
     @Param('id') eventId: number,
     @Body() modifyEventReqDto: ModifyEventReqDto,
   ) {
     await this.eventService.modifyEvent({ eventId, modifyEventReqDto });
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async deleteEvent(@Param('id') eventId: number) {
+    await this.eventService.deleteEvent(eventId);
   }
 }

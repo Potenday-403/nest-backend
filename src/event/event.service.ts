@@ -54,4 +54,10 @@ export class EventService {
       priority: modifyEventReqDto.priority,
     });
   }
+
+  async deleteEvent(eventId: number) {
+    const event = await this.eventRepository.getEventByEventId(eventId);
+
+    await this.eventRepository.remove(event);
+  }
 }
