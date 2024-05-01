@@ -25,7 +25,7 @@ import { Friend } from 'src/friend/entities/friend.entity';
         username: configService.get<string>('database.user'),
         password: configService.get<string>('database.pass'),
         entities: [User, Tribute, Event, Friend],
-        synchronize: true,
+        synchronize: false,
         debug: false,
         logging: ['info', 'query', 'error', 'log', 'schema', 'warn'],
       }),
