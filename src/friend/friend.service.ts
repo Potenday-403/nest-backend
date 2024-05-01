@@ -7,6 +7,7 @@ import { In, MoreThan } from 'typeorm';
 import { Friend } from './entities/friend.entity';
 import { Event } from 'src/event/entities/event.entity';
 import { TributeRepository } from 'src/tribute/repositories/tribute.repository';
+import { ModifyFriendReqDto } from './dtos/req/modify-friend-req.dto';
 
 @Injectable()
 export class FriendService {
@@ -108,5 +109,29 @@ export class FriendService {
 
   async deleteFriend(friendId: number) {
     await this.friendRepository.delete({ id: friendId });
+  }
+
+  async modifyFriend(props: {
+    friendId: number;
+    modifyFriendReqDto: ModifyFriendReqDto;
+  }) {
+    const { friendId, modifyFriendReqDto } = props;
+
+    const friend = await this.friendRepository.findOne({
+      where: { id: friendId },
+    });
+
+    const modifiedFriend = await this.friendRepository.save({
+      friend,
+      ...modifyFriendReqDto,
+    });
+
+    return {
+      id: modifiedFriend.id,
+      name: modifiedFriend.name,
+      age: modifiedFriend.age,
+      gender: modifiedFriend.gender,
+      relationship: modifiedFriend.relationship,
+    };
   }
 }

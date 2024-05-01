@@ -7,12 +7,14 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { GetUserId } from 'src/shared/decorators/getUserId';
 import { CreateFriendReqDto } from './dtos/req/create-friend-req.dto';
 import { FriendService } from './friend.service';
+import { ModifyFriendReqDto } from './dtos/req/modify-friend-req.dto';
 
 @Controller('friend')
 export class FriendController {
@@ -49,5 +51,15 @@ export class FriendController {
   @UseGuards(JwtAuthGuard)
   async deleteFriend(@Param('friendId') friendId) {
     await this.friendService.deleteFriend(friendId);
+  }
+
+  @Put(':friendId')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async modifyFriend(
+    @Param('friendId') friendId,
+    @Body() modifyFriendReqDto: ModifyFriendReqDto,
+  ) {
+    return this.friendService.modifyFriend({ friendId, modifyFriendReqDto });
   }
 }
