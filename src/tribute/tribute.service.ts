@@ -58,4 +58,10 @@ export class TributeService {
       date: savedTribute.transactionDate,
     };
   }
+
+  async deleteTribute(tributeId: number) {
+    const tribute = await this.tributeRepository.getTributeById(tributeId);
+
+    await this.tributeRepository.remove(tribute);
+  }
 }

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   HttpCode,
   HttpStatus,
   Param,
@@ -35,5 +36,12 @@ export class TributeController {
   @UseGuards(JwtAuthGuard)
   async createTribute(@Body() createTributeReqDto: CreateTributeReqDto) {
     return this.tributeService.createTribute(createTributeReqDto);
+  }
+
+  @Delete(':tributeId')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async deleteTribute(@Param('tributeId') tributeId: number) {
+    await this.tributeService.deleteTribute(tributeId);
   }
 }
