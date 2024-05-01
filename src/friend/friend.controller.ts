@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -39,7 +40,14 @@ export class FriendController {
   @Get(':friendId')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
-  async getFriend(@GetUserId() id: number, @Param('friendId') friendId) {
-    return this.friendService.getFriend({ userId: id, friendId });
+  async getFriend(@Param('friendId') friendId) {
+    return this.friendService.getFriend(friendId);
+  }
+
+  @Delete(':friendId')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async deleteFriend(@Param('friendId') friendId) {
+    await this.friendService.deleteFriend(friendId);
   }
 }
