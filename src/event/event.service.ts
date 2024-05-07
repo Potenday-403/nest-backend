@@ -4,6 +4,7 @@ import { CreateEventReqDto } from './dtos/req/create-event-req.dto';
 import { UserRepository } from 'src/auth/repositories/user.repository';
 import { FriendRepository } from 'src/friend/repositories/friend.repository';
 import { ModifyEventReqDto } from './dtos/req/modify-event-req.dto';
+import { OpenAIService } from 'src/externals/openai/openai.service';
 
 @Injectable()
 export class EventService {
@@ -11,6 +12,7 @@ export class EventService {
     private eventRepository: EventRepository,
     private userRepository: UserRepository,
     private friendRepository: FriendRepository,
+    private openAIService: OpenAIService,
   ) {}
 
   async createEvent(props: {
@@ -61,5 +63,10 @@ export class EventService {
         await this.eventRepository.delete(id);
       }),
     );
+  }
+
+  async getEvent(eventId: number) {
+    const response = await this.openAIService.getAnswer();
+    const event = await this.eventRepository.getEventByEventId(eventId);
   }
 }

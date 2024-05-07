@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
   Param,
@@ -44,5 +45,12 @@ export class EventController {
   @UseGuards(JwtAuthGuard)
   async deleteEvent(@Body() ids: number[]) {
     await this.eventService.deleteEvents(ids);
+  }
+
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  //   @UseGuards(JwtAuthGuard)
+  async getEvent(@Param('id') eventId: number) {
+    const event = await this.eventService.getEvent(1);
   }
 }
