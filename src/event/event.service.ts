@@ -6,7 +6,8 @@ import { FriendRepository } from 'src/friend/repositories/friend.repository';
 import { ModifyEventReqDto } from './dtos/req/modify-event-req.dto';
 import { OpenAIService } from 'src/externals/openai/openai.service';
 import { TributeRepository } from 'src/tribute/repositories/tribute.repository';
-import { Between, Like } from 'typeorm';
+import { Between } from 'typeorm';
+import { GetGreetingsByCategoryReqDto } from './dtos/req/get-greetings-by-category.dto';
 
 @Injectable()
 export class EventService {
@@ -77,7 +78,7 @@ export class EventService {
           order: { createdAt: 'DESC' },
         })
       : null;
-    const greetings = await this.openAIService.getAnswer({
+    const greetings = await this.openAIService.getGreetingByCategories({
       relationship: friend ? friend.relationship : null,
       eventType: event.type,
     });
@@ -151,5 +152,19 @@ export class EventService {
         scheduledAt: event.scheduledAt,
       })),
     };
+  }
+
+  async getGreetingsByCategories(
+    getGreetingsByCategoryReqDto: GetGreetingsByCategoryReqDto,
+  ) {
+    const { relationship, eventType } = getGreetingsByCategoryReqDto;
+    const greetings = JSON.parse(
+      await this.openAIService.getGreetingsByCategories({
+        relationship,
+        eventType,
+      }),
+    );
+
+    return { greetings };
   }
 }
