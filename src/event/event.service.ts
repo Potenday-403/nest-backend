@@ -6,6 +6,7 @@ import { FriendRepository } from 'src/friend/repositories/friend.repository';
 import { ModifyEventReqDto } from './dtos/req/modify-event-req.dto';
 import { OpenAIService } from 'src/externals/openai/openai.service';
 import { TributeRepository } from 'src/tribute/repositories/tribute.repository';
+import { Between } from 'typeorm';
 
 @Injectable()
 export class EventService {
@@ -104,6 +105,28 @@ export class EventService {
               : null,
           }
         : null,
+    };
+  }
+
+  async getRemindList(props: { userId: number; date: Date }) {
+    const { userId, date } = props;
+    const before10Days = new Date(new Date(date).setDate(date.getDate() - 10));
+
+    const user = await this.userRepository.getUserById(userId);
+    const eventsWithin10Days = await this.eventRepository.find({
+      where: { user, scheduledAt: Between(before10Days, date) },
+      order: { scheduledAt: 'DESC' },
+    });
+
+    return {
+      date: date.toISOString().split('T')[0],
+      events: eventsWithin10Days.map((event) => ({
+        id: event.id,
+        name: event.name,
+        scheduledAt: event.scheduledAt,
+        priority: event.priority,
+      })),
+      count: eventsWithin10Days.length,
     };
   }
 }

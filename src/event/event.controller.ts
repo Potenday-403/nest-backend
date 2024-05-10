@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { EventService } from './event.service';
@@ -52,5 +53,12 @@ export class EventController {
   @UseGuards(JwtAuthGuard)
   async getEvent(@Param('id') eventId: number) {
     return this.eventService.getEvent(eventId);
+  }
+
+  @Get('reminder')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async getRemindList(@GetUserId() userId: number, @Query('date') date: Date) {
+    return this.eventService.getRemindList({ userId, date });
   }
 }
