@@ -5,6 +5,7 @@ import { UserRepository } from 'src/auth/repositories/user.repository';
 import { EventRepository } from './repositories/event.repository';
 import { FriendRepository } from 'src/friend/repositories/friend.repository';
 import { OpenAIService } from 'src/externals/openai/openai.service';
+import { TributeRepository } from 'src/tribute/repositories/tribute.repository';
 
 @Module({
   controllers: [EventController],
@@ -14,6 +15,7 @@ import { OpenAIService } from 'src/externals/openai/openai.service';
     EventRepository,
     FriendRepository,
     OpenAIService,
+    TributeRepository,
   ],
 })
 export class EventModule {}

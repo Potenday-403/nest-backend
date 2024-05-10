@@ -5,6 +5,7 @@ import { UserRepository } from 'src/auth/repositories/user.repository';
 import { FriendRepository } from 'src/friend/repositories/friend.repository';
 import { ModifyEventReqDto } from './dtos/req/modify-event-req.dto';
 import { OpenAIService } from 'src/externals/openai/openai.service';
+import { TributeRepository } from 'src/tribute/repositories/tribute.repository';
 
 @Injectable()
 export class EventService {
@@ -13,6 +14,7 @@ export class EventService {
     private userRepository: UserRepository,
     private friendRepository: FriendRepository,
     private openAIService: OpenAIService,
+    private tributeRepository: TributeRepository,
   ) {}
 
   async createEvent(props: {
@@ -66,7 +68,42 @@ export class EventService {
   }
 
   async getEvent(eventId: number) {
-    const response = await this.openAIService.getAnswer();
     const event = await this.eventRepository.getEventByEventId(eventId);
+    const friend = event.friend ?? null;
+    const lastTribute = friend
+      ? await this.tributeRepository.findOne({
+          where: { friend },
+          order: { createdAt: 'DESC' },
+        })
+      : null;
+    const greetings = await this.openAIService.getAnswer({
+      relationship: friend ? friend.relationship : null,
+      eventType: event.type,
+    });
+
+    return {
+      id: event.id,
+      name: event.name,
+      type: event.type,
+      scheduledAt: event.scheduledAt,
+      priority: event.priority,
+      recommendedGreetings: greetings,
+      friend: friend
+        ? {
+            id: friend.id,
+            name: friend.name,
+            relationship: friend.relationship,
+            lastTribute: lastTribute
+              ? {
+                  date: lastTribute.transactionDate,
+                  type: lastTribute.type,
+                  name: lastTribute.name,
+                  price: lastTribute.price,
+                  isReceived: lastTribute.isReceived,
+                }
+              : null,
+          }
+        : null,
+    };
   }
 }

@@ -49,8 +49,8 @@ export class EventController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  //   @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async getEvent(@Param('id') eventId: number) {
-    const event = await this.eventService.getEvent(1);
+    return this.eventService.getEvent(eventId);
   }
 }
