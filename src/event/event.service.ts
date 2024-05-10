@@ -6,7 +6,7 @@ import { FriendRepository } from 'src/friend/repositories/friend.repository';
 import { ModifyEventReqDto } from './dtos/req/modify-event-req.dto';
 import { OpenAIService } from 'src/externals/openai/openai.service';
 import { TributeRepository } from 'src/tribute/repositories/tribute.repository';
-import { Between } from 'typeorm';
+import { Between, Like } from 'typeorm';
 
 @Injectable()
 export class EventService {
@@ -127,6 +127,29 @@ export class EventService {
         priority: event.priority,
       })),
       count: eventsWithin10Days.length,
+    };
+  }
+
+  async getCalender(props: { userId: number; year: number; month: number }) {
+    const { userId, year, month } = props;
+    const startDate = new Date(year, month + 1);
+    const endDate = new Date(year, month + 2);
+
+    const user = await this.userRepository.getUserById(userId);
+    const events = await this.eventRepository.find({
+      where: { user, scheduledAt: Between(startDate, endDate) },
+      order: { scheduledAt: 'ASC' },
+    });
+
+    return {
+      year,
+      month,
+      events: events.map((event) => ({
+        id: event.id,
+        name: event.name,
+        priority: event.priority,
+        scheduledAt: event.scheduledAt,
+      })),
     };
   }
 }

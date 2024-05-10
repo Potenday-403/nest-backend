@@ -61,4 +61,15 @@ export class EventController {
   async getRemindList(@GetUserId() userId: number, @Query('date') date: Date) {
     return this.eventService.getRemindList({ userId, date });
   }
+
+  @Get('calender')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async getCalender(
+    @GetUserId() userId: number,
+    @Query('year') year: number,
+    @Query('month') month: number,
+  ) {
+    return this.eventService.getCalender({ userId, year, month });
+  }
 }
