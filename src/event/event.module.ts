@@ -7,9 +7,10 @@ import { FriendRepository } from 'src/friend/repositories/friend.repository';
 import { OpenAIService } from 'src/externals/openai/openai.service';
 import { TributeRepository } from 'src/tribute/repositories/tribute.repository';
 import { GreetingController } from './controllers/greeting.controller';
+import { StatisticsController } from './controllers/statistics.controller';
 
 @Module({
-  controllers: [EventController, GreetingController],
+  controllers: [EventController, GreetingController, StatisticsController],
   providers: [
     EventService,
     UserRepository,
