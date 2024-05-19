@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsDate,
@@ -25,5 +26,6 @@ export class ModifyTributeReqDto {
 
   @IsNotEmpty()
   @IsDate()
+  @Type(() => Date)
   date: Date;
 }

@@ -21,7 +21,7 @@ export class TributeService {
 
     const modifiedTribute = await this.tributeRepository.save({
       ...tribute,
-      modifyTributeReqDto,
+      ...modifyTributeReqDto,
     });
 
     return {

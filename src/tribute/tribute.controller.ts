@@ -14,7 +14,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ModifyTributeReqDto } from './dtos/req/modify-tribute-req.dto';
 import { CreateTributeReqDto } from './dtos/req/create-tribute-req.dto';
 
-@Controller('tribute')
+@Controller('tributes')
 export class TributeController {
   constructor(private tributeService: TributeService) {}
 
