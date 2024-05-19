@@ -4,6 +4,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -32,9 +33,17 @@ export class Event {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @Column()
+  userId: number;
+
+  @Column()
+  friendId: number;
+
+  @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   @ManyToOne(() => User, (user) => user.events)
   user: User;
 
+  @JoinColumn({ name: 'friendId', referencedColumnName: 'id' })
   @ManyToOne(() => Friend, (friend) => friend.events)
   friend: Friend;
 }

@@ -71,7 +71,9 @@ export class EventService {
 
   async getEvent(eventId: number) {
     const event = await this.eventRepository.getEventByEventId(eventId);
-    const friend = event.friend ?? null;
+    const friend = event.friendId
+      ? await this.friendRepository.getFriendById(event.friendId)
+      : null;
     const lastTribute = friend
       ? await this.tributeRepository.findOne({
           where: { friend },
