@@ -16,7 +16,7 @@ import { CreateFriendReqDto } from './dtos/req/create-friend-req.dto';
 import { FriendService } from './friend.service';
 import { ModifyFriendReqDto } from './dtos/req/modify-friend-req.dto';
 
-@Controller('friend')
+@Controller('friends')
 export class FriendController {
   constructor(private friendService: FriendService) {}
 
