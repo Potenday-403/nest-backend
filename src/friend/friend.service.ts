@@ -41,8 +41,7 @@ export class FriendService {
   }
 
   async getSortedFriends(userId: number) {
-    const user = await this.userRepository.getUserById(userId);
-    const friends = await this.friendRepository.getFriendsByUser(user);
+    const friends = await this.friendRepository.getFriendsByUserId(userId);
 
     const friendsWithEvent: { friend: Friend; closestEvent: Event }[] = [];
     const friendsWithoutEvent: { friend: Friend }[] = [];

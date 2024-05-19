@@ -9,8 +9,8 @@ export class FriendRepository extends Repository<Friend> {
     super(Friend, dataSource.createEntityManager());
   }
 
-  async getFriendsByUser(user: User) {
-    const friends = await this.find({ where: { user } });
+  async getFriendsByUserId(userId: number) {
+    const friends = await this.find({ where: { user: { id: userId } } });
 
     return friends;
   }
