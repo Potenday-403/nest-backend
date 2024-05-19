@@ -119,7 +119,7 @@ export class FriendService {
     const friend = await this.friendRepository.getFriendById(friendId);
 
     const modifiedFriend = await this.friendRepository.save({
-      friend,
+      ...friend,
       ...modifyFriendReqDto,
     });
 
